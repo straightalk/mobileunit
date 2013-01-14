@@ -1,7 +1,6 @@
 var baseurl = "";
 var nextpage = "#home";
 
-
 /* When this function is called, the phone has been initialized and is ready to roll */
 function onDeviceReady() {
 
@@ -11,36 +10,44 @@ function onDeviceReady() {
 	blat = localStorage.phonegapLat;
 	blong = localStorage.phonegapLong;
 	baseurl = localStorage.baseUrl;
+	view = localStorage.
 
-	if (baseurl){
-		$("#baseurl").val(baseurl);	
+	if (baseurl) {
+		$("#baseurl").val(baseurl);
 	}
-	
-	if (username){
-		$("#username").val(username);	
+
+	if (username) {
+		$("#username").val(username);
 	}
-	
-	if (title){
-		$("#storytitle").val(title);	
+
+	if (title) {
+		$("#storytitle").val(title);
 	};
-	if (story){
-		$("#story").val(story);	
+	if (story) {
+		$("#story").val(story);
 	};
-	
-	if (localStorage.localLogin == 3){
+
+	if (view) {
+		$("#view").val(story);
+	};
+
+	if (display) {
+		$("#display").val(story);
+	};
+
+	if (localStorage.localLogin == 3) {
 		$("#logoutli").show();
 		$("#loginli").hide();
-	}else{
+	} else {
 
 		$("#footout").hide();
 	};
 
-	    $.mobile.changePage("#home");
-			
+	$.mobile.changePage("#home");
+
 }
 
-function saveSettings()
-{
+function saveSettings() {
 	baseurl = $("#baseurl").val();
 	localStorage.baseUrl = baseurl;
 	localStorage.view = $("#view").val();
@@ -48,20 +55,15 @@ function saveSettings()
 	alert("settings saved");
 }
 
-
-function loginout()
-{
-	if (localStorage.localLogin != 3){
+function loginout() {
+	if (localStorage.localLogin != 3) {
 		$.mobile.changePage("#login");
-	}
-	else
-	{	
-	logout();
+	} else {
+		logout();
 	}
 }
 
-
-function listArticles(){
+function listArticles() {
 	url = baseurl + '/phonegap/display_view';
 	$username = '';
 	$("#latestlist").html("retrieving data. you must <br/><br/>enable the view in drupal <br/><br/>set the mobile settings page (below)<br/><br/>enable the default views frontage is good starting point ");
@@ -70,23 +72,22 @@ function listArticles(){
 		view : localStorage.view,
 		display : localStorage.display
 	}, function(data) {
-		if (data =='') {data = "you must <br/><br/>enable the view in drupal <br/><br/>set the mobile settings page (below)<br/><br/>enable the default views frontage is good starting point "};
+		if (data == '') {
+			data = "you must <br/><br/>enable the view in drupal <br/><br/>set the mobile settings page (below)<br/><br/>enable the default views frontage is good starting point "
+		};
 		$("#latestlist").html(data);
 
 	});
 	$.mobile.changePage("#stories");
 }
 
-
-
 function saveLogin() {
 	username = $("#username").val();
 	password = $("#password").val();
 	var sayhi = function(data) {
-		$("#logmsg").html(
-				"server result <br />" + data.result + " status: " + data.status);
+		$("#logmsg").html("server result <br />" + data.result + " status: " + data.status);
 		localStorage.localLogin = 5;
-		if (data.status == "ok"){
+		if (data.status == "ok") {
 			localStorage.localLogin = 3;
 			localStorage.hash = data.hash;
 			$.mobile.changePage(nextpage);
@@ -99,11 +100,9 @@ function saveLogin() {
 		localStorage.phonegapName = username;
 		if (password) {
 			localStorage.phonegapPass = password;
-			$("#logmsg").html(
-					"setting locally saved for " + username
-							+ "trying to contact server ...");
+			$("#logmsg").html("setting locally saved for " + username + "trying to contact server ...");
 			purl = baseurl + '/phonegap/login';
-			$.ajax( {
+			$.ajax({
 				type : 'POST',
 				url : purl,
 				dataType : 'json',
@@ -136,20 +135,16 @@ function sendStory() {
 		body : story
 	}, function(data) {
 		var content = $(data).find('#main');
-		if (isNumeric(data) ) 
-		{
+		if (isNumeric(data)) {
 			localStorage.phonegapPosted = 3;
-			$("#sentmessage").html('your story has been uploaded with id: '+ data + '<br /> please go to my stories to check your story, before clearing it ready for your next report.<br /> <br /> <a class="ui-btn ui-btn-icon-right ui-li ui-corner-top ui-corner-bottom ui-btn-up-c ui-btn-active" onclick="listArticles();" ><p> &nbsp;Show articles</p></a><br /> <br />');
-		}
-		else
-		{
-			$("#sentmessage").html('There has been a problem uplaoding your story: '+ data + '<br /> please check your settings and connectivty and try again.<br /> <a onclick="listStories();" ><img src="images/my-stories.png" /></a>');	
+			$("#sentmessage").html('your story has been uploaded with id: ' + data + '<br /> please go to my stories to check your story, before clearing it ready for your next report.<br /> <br /> <a class="ui-btn ui-btn-icon-right ui-li ui-corner-top ui-corner-bottom ui-btn-up-c ui-btn-active" onclick="listArticles();" ><p> &nbsp;Show articles</p></a><br /> <br />');
+		} else {
+			$("#sentmessage").html('There has been a problem uplaoding your story: ' + data + '<br /> please check your settings and connectivty and try again.<br /> <a onclick="listStories();" ><img src="images/my-stories.png" /></a>');
 		}
 	});
 };
 
-function logout()
-{
+function logout() {
 	localStorage.phonegapName = "";
 	localStorage.phonegapPass = "";
 	localStorage.localLogin = 5;
@@ -157,11 +152,10 @@ function logout()
 	$("#password").val("");
 	$("#logoutli").hide();
 	$("#loginli").show();
-	$("#footout").fadeOut();	
+	$("#footout").fadeOut();
 }
 
-function how()
-{
+function how() {
 	$.mobile.changePage("#howitworks");
 }
 
@@ -176,19 +170,14 @@ function clearData() {
 	clearStoryData();
 }
 
-function addStory()
-{
-	if (localStorage.localLogin != 3){
+function addStory() {
+	if (localStorage.localLogin != 3) {
 		nextpage = "#addstory";
 		$.mobile.changePage("#login");
-		}
-	else
-	{
+	} else {
 		$.mobile.changePage("#addstory");
 	};
 }
-
-
 
 function onBodyLoad() {
 	document.addEventListener("deviceready", onDeviceReady, false);
