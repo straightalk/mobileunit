@@ -29,11 +29,11 @@ function onDeviceReady() {
 	};
 
 	if (view) {
-		$("#view").val(story);
+		$("#view").val(view);
 	};
 
 	if (display) {
-		$("#display").val(story);
+		$("#display").val(display);
 	};
 
 	if (localStorage.localLogin == 3) {
