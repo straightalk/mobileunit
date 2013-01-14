@@ -10,7 +10,8 @@ function onDeviceReady() {
 	blat = localStorage.phonegapLat;
 	blong = localStorage.phonegapLong;
 	baseurl = localStorage.baseUrl;
-	view = localStorage.
+	view = localStorage.view;
+	display = localStorage.dsplay;
 
 	if (baseurl) {
 		$("#baseurl").val(baseurl);
